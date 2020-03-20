@@ -48,7 +48,8 @@ const worldWild = () => {
 		    	ars = "<h4 style='heigth:0px;text-decoration : underline;' >ARS</h4><div style='border: solid 0.3px red;padding : 10px;'>"+data.ars.map(info => { return '<p style="margin:0;font-Size : 8px;"> ' +info+ ' </p>' }).join("")+'</div>' 
 		    	thinkerviewCleaned = '<div style="display: grid;justify-content: center;"> <img src="./thkv.jpg" style="margin:auto;margin-top:10px;margin-bottom: 10px;" width="50px" height="50px" > ' + thkv + '	</div>'
 		    	schoolCleaned = '<div style="display: grid;justify-content: center;"> <img src="./42.png" style="margin:auto;margin-top:10px;margin-bottom: 10px;" width="50px" height="50px" > ' + school + '	</div>'
-		    	ECHO.innerHTML = ars+rx+'<hr>'+money+'<hr>'+tweet+google+thinkerviewCleaned+schoolCleaned
+		    	RX.innerHTML = rx 
+		    	ECHO.innerHTML = ars+tweet+thinkerviewCleaned+schoolCleaned+'<hr>'+money+'<hr>'+google
 		    	return 	
 		    })
 }
@@ -65,6 +66,7 @@ const LOAD = () => {
 document.addEventListener('keydown', (event) => {
 	const nomTouche = event.key;
 	if (nomTouche == "Enter" && INPUTmsg.value ) {
+		//consig.json
 		fetch('http://192.168.0.41:42333/bottle',params("POST",{alias : INPUTalias.value , msg : INPUTmsg.value}))
 	    .then(res => res.json())
 		.then(logs => {
