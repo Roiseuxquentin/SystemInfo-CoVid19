@@ -33,7 +33,8 @@ const params = (method,data) => {
 }
 
 const worldWild = () => {
-	return 	fetch('http://192.168.0.41:42333/echo',params("GET"))
+	//config.json
+	return 	fetch('http://192.168.0.28:42333/echo',params("GET"))
 		    .then(res => res.json())
 		    .then(data => {
 		    		console.log('%c DebuGg : ', 'background: orange; color: red' , data.rx )
@@ -56,7 +57,7 @@ const worldWild = () => {
 
 const LOAD = () => {
 
-	return 	fetch('http://192.168.0.41:42333/logs',params("GET"))
+	return 	fetch('http://192.168.0.28:42333/logs',params("GET"))
 		    .then(res => res.json())
 		    .then(logs => logs.messages.map(log => { return '<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;"> <span style="color:blue;font-Size:9px;" > ' +log.alias+ '</span> <span style="font-Size:9px;color:green;" > ' +log.date+ ' </span> : '+log.msg+' </p>' }) )
 		    .then(allLog => LOG.innerHTML = allLog.reverse().join('')  )
@@ -67,7 +68,7 @@ document.addEventListener('keydown', (event) => {
 	const nomTouche = event.key;
 	if (nomTouche == "Enter" && INPUTmsg.value ) {
 		//consig.json
-		fetch('http://192.168.0.41:42333/bottle',params("POST",{alias : INPUTalias.value , msg : INPUTmsg.value}))
+		fetch('http://192.168.0.28:42333/bottle',params("POST",{alias : INPUTalias.value , msg : INPUTmsg.value}))
 	    .then(res => res.json())
 		.then(logs => {
 			const allLog = logs.messages.map(log => { return '<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;"> <span style="color:blue;font-Size:9px;" > ' +log.alias+ '</span> <span style="font-Size:9px;color:green;" > ' +log.date+ ' </span> : '+log.msg+' </p>' })
