@@ -67,7 +67,7 @@ app.post('/bottle', (req,res) => {
 
         let buffer = JSON.parse(data).messages
       //config.json
-        buffer.push({ date : "JOUR 4 : "+time , who : ip.replace("::ffff:","") , alias : aliasClean , msg: dataClean })
+        buffer.push({ date : "JOUR 5 : "+time , who : ip.replace("::ffff:","") , alias : aliasClean , msg: dataClean })
         const newData = { messages : buffer }    
 
         if (data.length < 100000) {
