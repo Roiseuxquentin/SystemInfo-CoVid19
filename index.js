@@ -22,6 +22,10 @@ app.use(express.static('./public'))
 app.use(express.json({limit: '500kb'}));       // to support JSON-encoded bodies
 app.use(express.urlencoded({limit: '500kb', extended: true})); // to support URL-encoded bodies
 
+app.get('/', (req,res) => {
+  res.redirect(req.baseUrl + '/html.html')
+})
+
 app.get('/echo', (req,res) => {
   fs.readFile('./data/otherInfo.json', 'utf-8', (err, data) => { 
     if (err) throw err
@@ -37,7 +41,6 @@ app.get('/cov', (req,res) => {
     res.send(data)
   })
 })
-
 
 app.post('/bottle', (req,res) => {
   const DATA = req.body
