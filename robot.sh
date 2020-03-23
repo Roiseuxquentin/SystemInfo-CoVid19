@@ -1,6 +1,31 @@
+################################################### 
+#*/=============================================\*# 
+# ||                      .__                  || #
+# ||   ____   ____   ____ |  |   ____   ____   || #
+# || _/ __ \_/ __ \ / ___\|  |  /  _ \ /  _ \  || #
+# || \  ___/\  ___// /_/  >  |_(  <_> |  <_> ) || #
+# ||  \___  >\___  >___  /|____/\____/ \____/  || #
+# ||      \/     \/_____/                  2020|| #
+#.\=============================================/.#
+###################################################
+# System Info War
+
+#############
+# CREATE FILE
+#############
+
+clear
+touch ./data/otherInfo.json
+touch ./data/COVIDinfo.json
+
+#############
+#SCRAP DATA
+#############
+echo " Start Scrapping DATA..."
+
 ## MONEY
 GOLD=$(curl -s https://www.kitco.com/gold-price-today-europe/ | grep -A 1 'price per ounce' | sed '1d' | sed 's/<td>\|<\/td>\|[[:blank:]]\|\n//g' | sed 's/^/"/g' | sed 's/.$/€",/g')
-# BITCOIN RATE
+## BITCOIN RATE
 BTC=$(curl -s https://courscryptomonnaies.com/bitcoin | sed 's/>\| /\n/g' | grep € | grep x27 | sed 's/&#x27;\|<\/span//g' | sed 's/^/"/g' | sed 's/$/",/g')
 
 ## FLUX RSS AGENCE REGIONALE DE SANTE
@@ -18,15 +43,26 @@ GOOUS=$(curl -s https://trends.google.com/trends/trendingsearches/daily/rss\?geo
 
 THINKERVIEW=$(curl -s https://www.thinkerview.com/feed/ | grep title | head -n 6 | sed 's/^.*<title>/"/g' | sed 's/<\/title.*$/",/g' | sed 1d | sed '$ s/.$//g')
 
+clear
 
-
-
-    # Détermine le moment de la journee
 Instant() {
 
+  DAY=$(date +%d)
+  lastDay=$(($DAY - 1))
+  LASTDATE=""
+
+  MONTH=$(date +%m)
   H=$(date +%-H)
   M=$(date +%M)
 
+  if (( $DAY < 10 ))
+    then
+      LASTDATE=$(echo '2020-'$MONTH'-0'$lastDay)
+    else
+      LASTDATE=$(echo '2020-'$MONTH'-'$lastDay)
+  fi
+
+  # Détermine le moment de la journee
   if (( $H < 13 ))
     then
     moment="Bulletin du  matin"
@@ -40,25 +76,64 @@ Instant() {
       url="http://radiofrance-podcast.net/podcast09/rss_11736.xml"
   fi
 }
-   # Détermine le dernier podcast d'information via un flux rss/xml
-   # Lit la premiere minute, uniquement le sommaire , les titres du journal
+
 Instant
+## COVID fonctionne uniquement si la source est actuel & active
+CODVID=$(curl -s https://raw.githubusercontent.com/opencovid19-fr/data/master/dist/chiffres-cles.json | grep -A 100 "$LASTDATE" | sed '$d' )
+# Détermine le dernier podcast d'information via un flux rss/xml
 actuPod=$(curl -s $url  | grep -m 1 "mp3" | sed 's/<guid\|<\/guid\|>//g' |  sed 's/^.*url="\|" le.*$//g')
-
-
-touch ghost.json
 clear
 
-echo '{ "tweetos" : [ ' $PARIS '], ' > ghost.json
-echo '"thinkerview" : [ ' $THINKERVIEW '], ' >> ghost.json
-echo ' TWEETOS _ OK'
-echo '"gooSearch" : ' $GOOFR $GOOIE $GOOGB $GOOBE $GOOUS >> ghost.json
-echo ' GOOGLE TRENDS _ OK'
-echo '"gold" : '$GOLD >> ghost.json
-echo ' GOLD _ OK'
-echo '"btc" : '$BTC >> ghost.json
-echo ' BITCOIN _ OK'
-echo '"rx" : "'$actuPod'",' >> ghost.json
-echo ' RX _ OK'
-echo '"ars" : ['$ARS'] }' >> ghost.json
-echo ' ARS _ OK'
+#############
+#SCRAP DATA
+#############
+echo " Writting DATA :"
+
+echo " "
+echo " "
+echo '{ "tweetos" : [ ' $PARIS '], ' > ./data/otherInfo.json
+echo '   - TWEETOS _ OK'
+echo " "
+echo '"thinkerview" : [ ' $THINKERVIEW '], ' >> ./data/otherInfo.json
+echo '   - THINKERVIEW _ OK'
+echo " "
+echo '"gooSearch" : ' $GOOFR $GOOIE $GOOGB $GOOBE $GOOUS >> ./data/otherInfo.json
+echo '   - GOOGLE TRENDS _ OK'
+echo " "
+echo '"gold" : '$GOLD >> ./data/otherInfo.json
+echo '   - GOLD _ OK'
+echo " "
+echo '"btc" : '$BTC >> ./data/otherInfo.json
+echo '   - BITCOIN _ OK'
+echo " "
+echo '"rx" : "'$actuPod'",' >> ./data/otherInfo.json
+echo '   - RX _ OK'
+echo " "
+echo '"ars" : ['$ARS'] }' >> ./data/otherInfo.json
+echo '   - ARS _ OK'
+echo " "
+echo '[ { '$CODVID']' > ./data/COVIDinfo.json  
+echo '   - CODVID _ OK'
+#############
+#CONTROL JSON
+#############
+
+echo " "
+echo " "
+echo " _____________________"
+echo " "
+echo " "
+#jq is json validator
+
+cat ./data/otherInfo.json | jq empty
+echo "   JSON INFO _ OK"
+
+#jq is json validator
+cat ./data/COVIDinfo.json | jq empty
+echo "   JSON COVID-19 _ OK"
+
+echo " "
+echo " _____________________"
+
+echo "                    ..D0n3.."
+echo " "

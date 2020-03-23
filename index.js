@@ -1,3 +1,14 @@
+// */=============================================\* 
+//  ||                      .__                  || 
+//  ||   ____   ____   ____ |  |   ____   ____   || 
+//  || _/ __ \_/ __ \ / ___\|  |  /  _ \ /  _ \  || 
+//  || \  ___/\  ___// /_/  >  |_(  <_> |  <_> ) || 
+//  ||  \___  >\___  >___  /|____/\____/ \____/  || 
+//  ||      \/     \/_____/                  2020|| 
+// .\=============================================/.
+// System Info WarTime
+
+const port = 42333
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -12,35 +23,21 @@ app.use(express.json({limit: '500kb'}));       // to support JSON-encoded bodies
 app.use(express.urlencoded({limit: '500kb', extended: true})); // to support URL-encoded bodies
 
 app.get('/echo', (req,res) => {
-  console.log('echo')
-  fs.readFile('./ghost.json', 'utf-8', (err, data) => { 
+  fs.readFile('./data/otherInfo.json', 'utf-8', (err, data) => { 
     if (err) throw err
 
     res.send(data)
   })
 })
-let i = 0
 
-app.get('/workbench', (req,res) => {
-  console.log('workbench')
+app.get('/cov', (req,res) => {
+  fs.readFile('./data/COVIDinfo.json', 'utf-8', (err, data) => { 
+    if (err) throw err
 
-            i= i + 1
-
-      fs.readFile('./logs/logs.json', 'utf-8', (err, data) => { 
-        if (err) throw err
-
-
-        let buffer = JSON.parse(data).messages
-        buffer.push({ date : "WorkBench : "+i , who : "WorkBench"+i , alias : "WorkBench" , msg: "dataClean"+i })
-        const newData = { messages : buffer }    
-
-    fs.writeFile('./logs/logs.json', JSON.stringify(newData) , (err, data) => {
-            if (err) throw err
-
-            res.send("ok"+i)
-      })
-    })
+    res.send(data)
+  })
 })
+
 
 app.post('/bottle', (req,res) => {
   const DATA = req.body
@@ -93,4 +90,28 @@ app.get('/logs', (req,res) => {
   }) 
 })
 
-app.listen(42333, () =>  curl.get('http://roiseux.fr', (err, response, body) => console.log(`ip public :${body}\nport :42333`) ) )
+app.listen(port, () =>  curl.get('http://roiseux.fr', (err, response, body) => console.log(`ip public :${body}\nport : ${port}`) ) )
+
+
+//WORKBENCH
+// let i = 0
+// app.get('/workbench', (req,res) => {
+//   console.log('workbench')
+
+//             i= i + 1
+
+//       fs.readFile('./logs/logs.json', 'utf-8', (err, data) => { 
+//         if (err) throw err
+
+
+//         let buffer = JSON.parse(data).messages
+//         buffer.push({ date : "WorkBench : "+i , who : "WorkBench"+i , alias : "WorkBench" , msg: "dataClean"+i })
+//         const newData = { messages : buffer }    
+
+//     fs.writeFile('./logs/logs.json', JSON.stringify(newData) , (err, data) => {
+//             if (err) throw err
+
+//             res.send("ok"+i)
+//       })
+//     })
+// })
