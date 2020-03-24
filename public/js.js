@@ -14,15 +14,17 @@ const ip = "88.121.253.98"
 const port = 42333
 const jour = "9"
 
-const REFRESH = document.getElementById('refresh')
-const THINKERVIEW = document.getElementById('thinkerview') 
-const RX = document.getElementById('rx') 
-const ECHO = document.getElementById('echo') 
 const COV = document.getElementById('cov') 
+const REFRESH = document.getElementById('refresh')
 const LOG = document.getElementById('log') 
-const CURRENTDAY = document.getElementById('jour') 
 const INPUTmsg = document.getElementById('inputMSG')
 const INPUTalias = document.getElementById('inputALIAS')
+
+const CURRENTDAY = document.getElementById('jour') 
+const CAROUSSEL = document.getElementById('infographie')
+const RX = document.getElementById('rx') 
+const ECHO = document.getElementById('echo') 
+const THINKERVIEW = document.getElementById('thinkerview') 
 
 const params = (method,data) => {
 	let setting = {
@@ -155,7 +157,9 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('click', (e) => 	{ 
 	(e.target.id == "refresh") ? LOAD() : true 
 	let section = [ "actualiteTrigger","indicateurTrigger","keysTrigger","candideTrigger","ressourcesTrigger"]
-	if (section.includes(e.target.id)) {
+	if (e.target.id == "infographie"){
+		window.open(`http://${ip}:${port}/infographie/infographie_coronavirus${CAROUSSEL.nb}.jpg`)
+	} else if (section.includes(e.target.id)) {
 		if (e.target.value == "- ") {
 			document.getElementById(e.target.id.split("Trigger").join("")).style.display = "none"
 			document.getElementById(e.target.id).value = "+"
@@ -163,13 +167,22 @@ document.addEventListener('click', (e) => 	{
 			document.getElementById(e.target.id.split("Trigger").join("")).style.display = "block"
 			document.getElementById(e.target.id).value = "- "
 		}
-	}else {
-		console.log('%c DebuGg : ', 'background: orange; color: red' , "FAUX" )
 	}
 })
 
+const infographie = () => {
+    const max = 15
+    const random = Math.floor(Math.random() * Math.floor(max + 1))
+
+	const imgSrc = `./infographie/infographie_coronavirus${random}.jpg`
+	CAROUSSEL.src = imgSrc
+	CAROUSSEL.nb = random
+}
+
 CURRENTDAY.innerHTML = `🇫🇷 JOUR ${jour} 🇫🇷` 
 
+setInterval(() => infographie(),3500)
+infographie()
 worldWild()
 LOAD()
 cov()
