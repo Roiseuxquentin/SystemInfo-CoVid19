@@ -12,12 +12,14 @@
 // const ip = "192.168.0.41"
 const ip = "88.121.253.98"
 const port = 42333
+const jour = "8"
 
 const THINKERVIEW = document.getElementById('thinkerview') 
 const RX = document.getElementById('rx') 
 const ECHO = document.getElementById('echo') 
 const COV = document.getElementById('cov') 
 const LOG = document.getElementById('log') 
+const CURRENTDAY = document.getElementById('jour') 
 const INPUTmsg = document.getElementById('inputMSG')
 const INPUTalias = document.getElementById('inputALIAS')
 
@@ -116,6 +118,7 @@ document.addEventListener('keydown', (event) => {
 	}
 })
 
+CURRENTDAY.innerHTML = `🇫🇷 JOUR ${jour} 🇫🇷` 
 worldWild()
 LOAD()
 cov()

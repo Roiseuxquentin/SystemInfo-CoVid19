@@ -9,6 +9,8 @@
 // System Info WarTime
 
 const port = 42333
+const jour = "8"
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -67,7 +69,7 @@ app.post('/bottle', (req,res) => {
 
         let buffer = JSON.parse(data).messages
       //config.json
-        buffer.push({ date : "JOUR 7 : "+time , who : ip.replace("::ffff:","") , alias : aliasClean , msg: dataClean })
+        buffer.push({ date : `JOUR ${jour} : ${time}` , who : ip.replace("::ffff:","") , alias : aliasClean , msg: dataClean })
         const newData = { messages : buffer }    
 
         if (data.length < 100000) {

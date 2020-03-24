@@ -81,7 +81,7 @@ Instant() {
 
 Instant
 ## COVID fonctionne uniquement si la source est actuel & active
-CODVID=$(curl -s https://raw.githubusercontent.com/opencovid19-fr/data/master/dist/chiffres-cles.json | sed -n '/"date": "2020-03-23"/,/]/p'  | sed '$d' )
+CODVID=$(curl -s https://raw.githubusercontent.com/opencovid19-fr/data/master/dist/chiffres-cles.json | sed -n '/"date": "2020-03-23"/,//p'  | sed '$d' )
 # CODVID=$(curl -s https://raw.githubusercontent.com/opencovid19-fr/data/master/dist/chiffres-cles.json | grep -A 100 "$LASTDATE" | sed '$d' )
 # Détermine le dernier podcast d'information via un flux rss/xml
 actuPod=$(curl -s $url  | grep -m 1 "mp3" | sed 's/<guid\|<\/guid\|>//g' |  sed 's/^.*url="\|" le.*$//g')
