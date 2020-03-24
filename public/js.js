@@ -46,7 +46,7 @@ const LOAD = () => {
 
 	return 	fetch(`http://${ip}:${port}/logs`,params("GET"))
 		    .then(res => res.json())
-		    .then(logs => logs.messages.map(log => { return '<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;"> <span style="color:blue;font-Size:9px;" > ' +log.alias+ '</span> <span style="font-Size:9px;color:green;" > ' +log.date+ ' </span> : '+log.msg+' </p>' }) )
+		    .then(logs => logs.messages.map(log => { return `<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;color : ${(log.alias == "information") ? "red" : "black"};"> <span style="color:${(log.alias == "information") ? "orange" : "blue"};font-Size:9px;" >${log.alias}</span> <span style="font-Size:9px;color:green;" >${log.date}</span> : ${log.msg}</p>` }) )
 		    .then(allLog => LOG.innerHTML = allLog.reverse().join('')  )
 }
 
@@ -107,7 +107,7 @@ document.addEventListener('keydown', (event) => {
 		fetch(`http://${ip}:${port}/bottle`,params("POST",{alias : INPUTalias.value , msg : INPUTmsg.value}))
 	    .then(res => res.json())
 		.then(logs => {
-			const allLog = logs.messages.map(log => { return '<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;"> <span style="color:blue;font-Size:9px;" > ' +log.alias+ '</span> <span style="font-Size:9px;color:green;" > ' +log.date+ ' </span> : '+log.msg+' </p>' })
+			const allLog = logs.messages.map(log => `<p style="word-break: break-all;width: 100%;margin:0;font-Size : 12px;color : ${(log.alias == "information") ? "red" : "black"};"> <span style="color:${(log.alias == "information") ? "orange" : "blue"};font-Size:9px;" >${log.alias}</span> <span style="font-Size:9px;color:green;" >${log.date}</span> : ${log.msg}</p>`  )
 			LOG.innerHTML = allLog.reverse().join('')
 			INPUTmsg.value = ''
 		} )
