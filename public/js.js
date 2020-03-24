@@ -89,7 +89,7 @@ const worldWild = () => {
 		    .then(data => {
 		    	const section = (title,content) => { return `<div style="display:grid;">
 		    													<h2 style="padding:5px;font-size:22px;text-decoration:underline;">
-		    														${title.toUpperCase()} <input value="- " type="button" id="${title}Trigger"/>
+		    														${title.toUpperCase()} <input style="cursor:pointer;" value="- " type="button" id="${title}Trigger"/>
 	    														</h2>
 		    													<div id="${title}" style="box-shadow: 2px 2px 10px #757575;
 		    																			  margin : 10px;
