@@ -115,7 +115,7 @@ echo " "
 echo '"ars" : ['$ARS'] }' >> ./data/otherInfo.json
 echo '   - ARS _ OK'
 echo " "
-echo '[{'$CODVID > ./data/COVIDinfo.json  
+echo '[{'$CODVID']' > ./data/COVIDinfo.json  
 echo '   - CODVID _ OK'
 #############
 #CONTROL JSON
